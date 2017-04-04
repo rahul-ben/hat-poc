@@ -1,0 +1,114 @@
+<div data-ng-controller="dashboardController">
+    <div class="container">
+
+        <!-- Codrops top bar -->
+        <div class="codrops-top clearfix">
+            <strong>HaT POC </strong>
+        </div><!--/ Codrops top bar -->
+
+        <div class="main">
+            <div class="col-sm-8">
+                <h1>Search</h1>
+            </div>
+            <div class="col-sm-4" ng-if="pageFlag">
+                <h5><strong>{{elasticQueryParser.length}} out of {{totalPages}}</strong></h5>
+            </div><br>
+        </div>
+        <div class="col-sm-12">
+            <input type="text" ng-model="hatQuery">&nbsp
+            <button  class="btn btn-primary btn-sm" ng-click="queryParser()"><i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </div><br><br>
+        <div class="col-md-12" ng-if="loaderVariable">
+            <div class="col-md-5"></div>
+            <div class="col-md-4">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        <i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>
+                        <span class="sr-only">Loading...</span>
+                    </h4>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div ng-repeat="item in elasticQueryParser">
+            <div class="container">
+                <div class="container" ng-if="item._type === 'profile'">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Profile</h4>
+                            </div>
+                            <div class="card-block">
+                                <blockquote class="card-blockquote">
+                                    <img src={{item._source.data.property.currentProfilePic}} class="img-rounded imageSize" alt="Cinque Terre" width="304" height="236">
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="card">
+                            <div class="card-header">
+                                Featured
+                            </div>
+                            <div class="card-block" style="height: 226px;">
+                                <h4 class="card-title">Details</h4>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <p><span><b>Name</b></span> : {{item._source.data.property.name}}</p>
+                                        <p><span><b>Age</b></span> : {{item._source.data.property.age}}</p>
+                                        <p><span><b>Description</b></span> : {{item._source.data.property.description}}</p>
+                                    </div>
+                                    <div class="col-sm-6 scroll">
+                                        <h4 class="card-title">Interests</h4>
+                                        <ul ng-repeat="interest in item._source.data.property.interests" style="list-style-type:circle">
+                                            <li>{{interest.name}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container" ng-if="item._type === 'post'">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Event</h4>
+                            </div>
+                            <div class="card-block">
+                                <blockquote class="card-blockquote">
+                                    <img src={{item._source.data.property.profile.currentProfilePic}} class="img-rounded imageSize" alt="Cinque Terre" width="304" height="236">
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="card">
+                                <div class="card-header">
+                                    Created By : {{item._source.data.property.profile.name}}
+                                </div>
+                                <div class="card-block" style="height: 226px;">
+                                    <div class="col-sm-6">
+                                        <h4 class="card-title">Details</h4>
+                                        <p><span><b>Subject</b></span> : {{item._source.data.property.subject}}</p>
+                                        <p><span><b>Place</b></span> : {{item._source.data.property.locationName}}</p>
+                                    </div>
+                                    <div class="col-sm-6 scroll">
+                                        <h4 class="card-title">Interests</h4>
+                                        <ul ng-repeat="interest in item._source.data.property.interests" style="list-style-type:circle">
+                                            <li>{{interest.name}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
